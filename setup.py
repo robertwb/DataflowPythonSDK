@@ -15,16 +15,21 @@
 """Python Dataflow SDK and Worker setup configuration."""
 
 import os
+import platform
 import re
 import setuptools
 
 # Currently all compiled modules are optional  (for performance only).
 # Cython is available on the workers, but we don't require it for development.
-try:
-  # pylint: disable=g-statement-before-imports,g-import-not-at-top
-  from Cython.Build import cythonize
-except ImportError:
+if platform.system() == 'Windows'
+  # stdint.h not always available on Windows
   cythonize = lambda *args, **kwargs: []
+else:
+  try:
+    # pylint: disable=g-statement-before-imports,g-import-not-at-top
+    from Cython.Build import cythonize
+  except ImportError:
+    cythonize = lambda *args, **kwargs: []
 
 
 # Configure the required packages and scripts to install.
